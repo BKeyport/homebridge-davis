@@ -1,0 +1,59 @@
+{
+    "pluginAlias": "DavisFixed",
+    "pluginType": "accessory",
+    "singular": true,
+    "schema": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "title": "Device Name",
+                "type": "string",
+                "required": true,
+                "description": "What do you want your weatherstation to be called by homekit?"
+            },
+            "manufacturer": { 
+                "title": "Manufacturer Name",
+                "type": "string",
+                "required": true,
+                "description": "What manufacturer do you want Homekit to see?"
+            },
+            "model": { 
+                "title": "Model Name",
+                "type": "string",
+                "required": true,
+                "description": "What model do you want Homekit to see?"
+            },
+            "serial": { 
+                "title": "Serial Number",
+                "type": "string",
+                "required": true,
+                "description": "Provide a unique serial number"
+            },
+            "url": { 
+                "title": "Access URL",
+                "type": "string",
+                "required": true,
+                "description": "What is the complete URL to your Davis unit?",
+                "default": "http://<ip address>/v1/current_conditions"
+            },
+            "pollingIntervalSeconds": {
+                "title": "Interval",
+                "type": "number",
+                "default": 60,
+                "description": "How many seconds between requests?",
+                "required": false
+            },
+            "temperatureUnitOfMeasure": {
+                "title": "Units",
+                "type": "string",
+                "required": true,
+                "default": "F",
+                "description": "What units does your Davis unit provide?",
+                "oneOf": [
+					{"title": "Fahrenheit", "enum": ["F"] },
+					{"title": "Celsius", "enum": ["C"] }
+				]
+            }
+        }
+    }
+}
