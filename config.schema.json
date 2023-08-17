@@ -10,6 +10,7 @@
                 "type": "string",
                 "required": true,
                 "description": "What do you want your weatherstation to be called by homekit?"
+                "default": "Davis"
             },
             "manufacturer": { 
                 "title": "Manufacturer Name",

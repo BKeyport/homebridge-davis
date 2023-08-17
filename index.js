@@ -30,7 +30,7 @@ davisfixed.prototype = {
       body: body,
       method: method
     },
-    function (error, response, body) {
+    function (error, response, body) { 
       callback(error, response, body)
     })
   },
