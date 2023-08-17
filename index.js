@@ -4,10 +4,10 @@ var request = require("request");
 module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  homebridge.registerAccessory("homebridge-DavisFixed", "DavisFixed", DavisFixed);
+  homebridge.registerAccessory("homebridge-davisfixed", "davisfixed", davisfixed);
 }
 
-function DavisFixed(log, config) {
+function davisfixed(log, config) {
   this.log = log;
 
   // Config
@@ -23,7 +23,7 @@ function DavisFixed(log, config) {
   this.getData(this.url);
 }
 
-DavisFixed.prototype = {
+davisfixed.prototype = {
   httpRequest: function (url, body, method, callback) {
     request({
       url: url,

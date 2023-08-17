@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-DavisFixed",
+  "name": "homebridge-davisfixed",
   "version": "1.0.0",
   "description": "Homebridge plugin that allows you to integrate your Davis WeatherLink Live station API.",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "homebridge-plugin",
     "homebridge",
     "homebridge-davisweatherlinklive",
-	"homebridge-davisfixed", 
+    "homebridge-davisfixed", 
     "temperature",
     "humidity",
     "davis weatherlink live",
