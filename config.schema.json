@@ -1,5 +1,5 @@
 {
-    "pluginAlias": "DavisFixed",
+    "pluginAlias": "davisfixed",
     "pluginType": "accessory",
     "singular": true,
     "schema": {
