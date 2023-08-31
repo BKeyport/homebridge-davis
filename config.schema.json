@@ -1,7 +1,7 @@
 {
     "pluginAlias": "davisfixed",
     "pluginType": "accessory",
-    "singular": true,
+    "singular": false,
     "schema": {
         "type": "object",
         "properties": {
@@ -25,7 +25,7 @@
                 "description": "What model do you want Homekit to see?"
             },
             "serial": { 
-                "title": "Serial Number",
+                "title": "Serial Number", 
                 "type": "string",
                 "required": true,
                 "description": "Provide a unique serial number"
@@ -36,6 +36,13 @@
                 "required": true,
                 "description": "What is the complete URL to your Davis unit?",
                 "default": "http://<ip address>/v1/current_conditions"
+            },
+            "txid": { 
+                "title": "Transmitter ID #",
+                "type": "number",
+                "required": true,
+                "description": "The Transmitter ID # if you have multiple units, leave at 1 if you don't know",
+                "default": 1
             },
             "pollingIntervalSeconds": {
                 "title": "Interval",
@@ -54,7 +61,13 @@
 					{"title": "Fahrenheit", "enum": ["F"] },
 					{"title": "Celsius", "enum": ["C"] }
 				]
-            }
+            },
+            "useInternal": {
+				"title": "Use Internal Measurements",
+				"type": "boolean",
+				"default": false,
+				"required": true
+			}	
         }
     }
 }
