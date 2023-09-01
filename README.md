@@ -1,6 +1,8 @@
 # Homebridge Davis (Fixed) 
 This is a Homebridge plugin that allows you to integrate your Davis WeatherLink Live station. 
 
+[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+
 ## Manual Installation
 You must have Homebridge already installed, then just install the plugin by running `npm install -g homebridge-davis`
 
@@ -43,5 +45,13 @@ Note: The plugin will report "Socket hang up" from time to time. This is normal.
 Testing is needed - if you use this - please let me know through github issues - if it works, if it don't, if something else is wrong, or if you can get rid of the "socket hang up" issue. 
 
 Original Code by pmoon00, modifications and new work by bkeyport
+
+
+## Donation
+
+As with all of my work, I don't want compensation for this. I would however, like you to donate to L'Arche Tahoma Hope, a 501(c)3 home for the disabled. 
+
+Please donate to https://www.larchetahomahope.org/donate/ - Mark it in honor of Nancy Tyson or make a comment to the same. Thank you. 
+
 
 

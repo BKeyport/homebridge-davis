@@ -1,6 +1,6 @@
 {
-  "name": "homebridge-davisfixed",
-  "version": "0.9.1",
+  "name": "homebridge-davis",
+  "version": "0.9.9",
   "description": "Homebridge plugin that allows you to integrate your Davis WeatherLink Live station API.",
   "main": "index.js",
   "scripts": {
@@ -29,4 +29,9 @@
   "dependencies": {
     "request": "^2.87.0"
   }
+ 
+  "funding": {
+  "type" : "individual",
+  "url" : "http://bkeyport.mystrikingly.com"
+	}
 }
