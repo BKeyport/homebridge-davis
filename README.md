@@ -1,11 +1,11 @@
-# Homebridge Davis Fixed
-This is a Homebridge plugin that allows you to integrate your Davis WeatherLink Live station API.
+# Homebridge Davis (Fixed) 
+This is a Homebridge plugin that allows you to integrate your Davis WeatherLink Live station. 
 
 ## Manual Installation
-You must have Homebridge already installed, then just install the plugin by running `npm install -g homebridge-davisfixed`
+You must have Homebridge already installed, then just install the plugin by running `npm install -g homebridge-davis`
 
 ## GUI installation
-Search for `homebridge-davisfixed` and install. 
+Search for `homebridge-davis` and install. 
 
 ## How It Works
 This will call your Davis WeatherLink Live station API. It will search your Davis Weatherlink local stations for the station of your choice and display data. 

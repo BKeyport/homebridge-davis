@@ -4,10 +4,10 @@ var request = require("request");
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
-	homebridge.registerAccessory("homebridge-davisfixed", "davisfixed", davisfixed);
+	homebridge.registerAccessory("homebridge-davis", "davis", davis);
 }
 
-function davisfixed(log, config) {
+function davis(log, config) {
 	this.log = log;
 
 	// Config
@@ -25,7 +25,7 @@ function davisfixed(log, config) {
 	this.useInternal = config ["useInternal"] || false; 
 }
 
-davisfixed.prototype = {
+davis.prototype = {
 	httpRequest: function (url, body, method, callback) {
 		request({
 			url: url,
