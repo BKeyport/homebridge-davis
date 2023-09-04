@@ -30,7 +30,7 @@ Model - This is to help homekit count the device as unique. Up to you.
 
 Serial Number - Any combo of letters and numbers - MUST BE UNIQUE. Homekit and some programs needs this to count the device. 
 
-URL - http://ip address/v1/current conditions. Replace "Ip address" with the address of your unit
+URL - ht<span>tp://ip address/v1/current conditions. Replace "Ip address" with the address of your unit
 
 Trasmitter ID -  the station's ID under "Device Configuration" on weatherlink.com.
 
@@ -40,18 +40,16 @@ Units - Does your weather station provide temperature in Fahrenheit or Celsius. 
 
 Use Internal Measurements - This will switch the plugin to use the internal/indoor measurements rather than external. 
 
-Note: The plugin will report "Socket hang up" from time to time. This is normal. I suspect the WLL box isn't able to handle generating the result and scaning the weather stations at the same time. This is why the polling interval is suggested to be different values above. The system will drift naturally and have more successes as it runs. 
+Note: The plugin will report various errors from time to time. This is normal. I suspect the WLL box isn't able to handle generating the result and scaning the weather stations at the same time. This is why the polling interval is suggested to be different values above. The system will drift naturally and have more successes as it runs. 
 
 Testing is needed - if you use this - please let me know through github issues - if it works, if it don't, if something else is wrong, or if you can get rid of the "socket hang up" issue. 
 
 Original Code by pmoon00, modifications and new work by bkeyport
 
+Thanks to sschwetz for airlink data to add to the module.  
 
 ## Donation
 
 As with all of my work, I don't want compensation for this. I would however, like you to donate to L'Arche Tahoma Hope, a 501(c)3 home for the disabled. 
 
 Please donate to https://www.larchetahomahope.org/donate/ - Mark it in honor of Nancy Tyson or make a comment to the same. Thank you. 
-
-
-

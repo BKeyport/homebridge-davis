@@ -37,6 +37,18 @@
                 "description": "What is the complete URL to your Davis unit?",
                 "default": "http://<ip address>/v1/current_conditions"
             },
+            "sensorType": {
+				"title": "Type of Sensor?",
+                "type": "number",
+                "required": true,
+                "default": 1,
+                "description": "What sensor are you using?",
+                "oneOf": [
+					{"title": "External: Normal", "enum": [1] },
+					{"title": "Internal: Normal", "enum": [2] },
+					{"title": "External: Airlink", "enum": [3] }
+				]
+			},
             "txid": { 
                 "title": "Transmitter ID #",
                 "type": "number",
@@ -63,7 +75,7 @@
 				]
             },
             "useInternal": {
-				"title": "Use Internal Measurements",
+				"title": "Use Internal Measurements (depreciated, use sensor type above)",
 				"type": "boolean",
 				"default": false,
 				"required": true

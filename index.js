@@ -18,12 +18,21 @@ function davis(log, config) {
 	this.pollingIntervalSeconds = parseInt(config["pollingIntervalSeconds"] || 300);
 	this.temperatureUnitOfMeasure = (config["temperatureUnitOfMeasure"] || "C").toUpperCase();
 	this._timeoutID = -1;
-	this._cachedData = { "temperature": 0, "humidity": 0, "temperaturein": 0, "humidityin": 0 };
+	this._cachedData = { "temperature": 0, "humidity": 0, "pm2p5:": 0, "pm10": 0};
 	this.serial = config["serial"] || "NotSetByUser";
 	this.getData(this.url);
 	this.txid = config["txid"] || 1;
 	this.useInternal = config ["useInternal"] || false; 
+	this.sensorType = config ["sensorType"] || 1  ;
+
+	//defaults 
+	this.temperature = 0;
+	this.humidity = 0;
+	this.pm2p5 = 0;
+	this.pm10 = 0;
+
 }
+
 
 davis.prototype = {
 	httpRequest: function (url, body, method, callback) {
@@ -104,26 +113,58 @@ davis.prototype = {
 
 			let weather = jsonResponse.data.conditions;
 			let length = weather.length;
+			
+			if (this.useInternal) {
+				this.sensorType = 2;
+			}
 
 			for (let i = 0; i < length; i++) {
-				if (!this.useInternal) {
-					if (weather[i].data_structure_type == 1) {
-						if (weather[i].txid == this.txid) {
+				/* known to me data structure types: 
+				 * Vantage data: https://weatherlink.github.io/weatherlink-live-local-api/
+				 * Airlink data: https://weatherlink.github.io/airlink-local-api/
+				 * 
+				 * 1: External Current conditions (Vantage known) 
+				 * 2: Leaf/Soil Moisture records 
+				 * 3: Barometrics (Vantage known) 
+				 * 4: Internal Current conditions (weatherlink for sure) 
+				 * 5: Airlink Old Format 
+				 * 6: Airlink New External Current Conditions
+				 */
+				switch (weather[i].data_structure_type) {
+					case 1: 
+						if (this.sensorType == 1) {
+							if (weather[i].txid == this.txid) {
+								this.temperature = weather[i].temp;
+								this.humidity = weather[i].hum; 
+							}
+						}
+						break;
+					case 4: 
+						if (this.sensorType == 2) {
+							this.temperature = weather[i].temp_in;
+							this.humidity = weather[i].hum_in; 
+						}
+						break;
+					case 5:
+						if (this.sensorType == 3) {
 							this.temperature = weather[i].temp;
 							this.humidity = weather[i].hum; 
-						}else{
-								this.temperature = 0;
-								this.humidity = 0; 
+							this.pm10 = weather[i].pm_10p0;
+							this.pm2p5 = weather[i].pm_2p5;
 						}
-					}
-				} else {
-				if (weather[i].data_structure_type == 4) {
-					this.temperature = weather[i].temp_in;
-					this.humidity = weather[i].hum_in; 
+						break; 
+					case 6: 
+						if (this.sensorType == 3) {
+							this.temperature = weather[i].temp;
+							this.humidity = weather[i].hum; 
+							this.pm10 = weather[i].pm_10p0;
+							this.pm2p5 = weather[i].pm_2p5;
+						}
+						break; 
+					default: 
+						break;
 				}
 			}
-		}
-
 			this._cachedData = {
 				"temperature": this.temperatureUnitOfMeasure == "F" ? this.convertFromFahrenheitToCelsius(this.temperature) : this.temperature,
 				"humidity": Math.round(this.humidity),
