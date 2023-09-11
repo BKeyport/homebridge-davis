@@ -34,7 +34,7 @@
                 "title": "Access URL",
                 "type": "string",
                 "required": true,
-                "description": "What is the complete URL to your Davis unit?",
+                "description": "What is the complete URL DIRECTLY to your Davis unit?",
                 "default": "http://<ip address>/v1/current_conditions"
             },
             "sensorType": {

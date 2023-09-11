@@ -30,7 +30,7 @@ Model - This is to help homekit count the device as unique. Up to you.
 
 Serial Number - Any combo of letters and numbers - MUST BE UNIQUE. Homekit and some programs needs this to count the device. 
 
-URL - ht<span>tp://ip address/v1/current conditions. Replace "Ip address" with the address of your unit
+URL - ht<span>tp://ip address/v1/current conditions. Replace "Ip address" with the _direct_ address to your unit. It will not work with any interpeted addresses like WifiLogger. 
 
 Trasmitter ID -  the station's ID under "Device Configuration" on weatherlink.com.
 
