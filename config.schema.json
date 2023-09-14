@@ -75,7 +75,7 @@
 				]
             },
             "useInternal": {
-				"title": "Use Internal Measurements (depreciated, use sensor type above)",
+				"title": "legacy switch, uncheck if checked, and use internal above",
 				"type": "boolean",
 				"default": false,
 				"required": true

@@ -14,7 +14,6 @@ This will call your Davis WeatherLink Live station API. It will search your Davi
 
 You can also select the internal (indoor) temps as evaluated by the Weatherlink Live control box. 
 
-
 The API will be called once at start up and polled periodically.  The results will be stored in memory, to prevent slowness when opening the Home app.
 
 ## Configuration
@@ -32,17 +31,21 @@ Serial Number - Any combo of letters and numbers - MUST BE UNIQUE. Homekit and s
 
 URL - ht<span>tp://ip address/v1/current conditions. Replace "Ip address" with the _direct_ address to your unit. It will not work with any interpeted addresses like WifiLogger. 
 
-Trasmitter ID -  the station's ID under "Device Configuration" on weatherlink.com.
+Type of Sensor - Do you have a regular weatherlink or Airlink type unit? Internal is also selected here. 
+
+Transmitter ID -  the station's ID under "Device Configuration" on weatherlink.com.
 
 Polling interval - How often should it recheck? (Note: Set different values if you're using more than one device on the same Weatherlink hub) 
 
 Units - Does your weather station provide temperature in Fahrenheit or Celsius. Homebridge needs to convert to Celsius for Homekit. 
 
-Use Internal Measurements - This will switch the plugin to use the internal/indoor measurements rather than external. 
+Use Internal Measurements - Left in for backwards compatibility - please use "type of sensor" above instead. 
 
 Note: The plugin will report various errors from time to time. This is normal. I suspect the WLL box isn't able to handle generating the result and scaning the weather stations at the same time. This is why the polling interval is suggested to be different values above. The system will drift naturally and have more successes as it runs. 
 
 Testing is needed - if you use this - please let me know through github issues - if it works, if it don't, if something else is wrong, or if you can get rid of the "socket hang up" issue. 
+
+Due to lack of time, support for this module is only provided through issues on Github. Thanks. 
 
 Original Code by pmoon00, modifications and new work by bkeyport
 

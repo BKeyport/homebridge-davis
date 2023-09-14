@@ -1,18 +1,36 @@
 {
   "name": "homebridge-davis",
-  "version": "0.9.11",
+  "version": "0.9.50",
   "description": "Homebridge plugin that allows you to integrate your Davis WeatherLink Live station API.",
   "main": "index.js",
+  "homepage": "https://github.com/BKeyport/homebridge-davis",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Phillip Moon (pmoon00)/Brendan Keyport (Brendan Keyport)",
+  "author": { 
+	  "name": "Brendan Keyport",
+	  "url": "https://github.com/bkeyport/"
+  },
+	"contributors": [
+		{
+			"name": "Phillip Moon (Original Code)",
+			"url": "https://github.com/pmoon00/"
+		},
+		{
+			"name": "Jón Tómas Grétarsson (Original Code)",
+			"url": "https://github.com/jontg/"
+		},
+		{
+			"name": "Stephen Schwetz (Data for testing airlink)",
+			"url": "https://github.com/sschwetz/"
+		}
+	],
   "license": "MIT",
   "keywords": [
     "homebridge-plugin",
     "homebridge",
     "homebridge-davisweatherlinklive",
-    "homebridge-davisfixed",
+    "homebridge-davis",
     "temperature",
     "humidity",
     "davis weatherlink live",
@@ -32,5 +50,8 @@
   "funding": {
   "type" : "individual",
   "url" : "http://bkeyport.mystrikingly.com"
+  },
+  "bugs": {
+	  "url": "https://github.com/BKeyport/homebridge-davis/issues"
   }
 }

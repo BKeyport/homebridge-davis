@@ -28,11 +28,32 @@ function davis(log, config) {
 	//defaults 
 	this.temperature = 0;
 	this.humidity = 0;
+	//Specific to Airlink
 	this.pm2p5 = 0;
 	this.pm10 = 0;
 
 }
 
+function computeAqiFromPm(averagePM25, averagePM10) {
+  const limits25 = [15, 30, 55, 110]
+  const limits10 = [25, 50, 90, 180]
+  if (averagePM25 === 0 && averagePM10 === 0) {
+   return Characteristic.AirQuality.UNKNOWN;
+  }
+  if (averagePM25 <= limits25[0] && averagePM10 <= limits10[0]) {
+   return Characteristic.AirQuality.EXCELLENT;
+  }
+  if (averagePM25 <= limits25[1] && averagePM10 <= limits10[1]) {
+   return Characteristic.AirQuality.GOOD;
+  }
+  if (averagePM25 <= limits25[2] && averagePM10 <= limits10[2]) {
+   return Characteristic.AirQuality.FAIR;
+  }
+  if (averagePM25 <= limits25[3] && averagePM10 <= limits10[3]) {
+   return Characteristic.AirQuality.INFERIOR;
+  }
+  return Characteristic.AirQuality.POOR;
+}
 
 davis.prototype = {
 	httpRequest: function (url, body, method, callback) {
@@ -52,6 +73,18 @@ davis.prototype = {
 
 	getStateTemperature: function (callback) {
 		callback(null, this._cachedData.temperature);
+	},
+
+	getAirQuality: function (callback) {
+		callback(null, this._cachedData.airQuality);
+	},
+	
+	getPM2p5: function (callback) {
+		callback(null, this._cachedData.pm2p5);
+	},
+	
+	getPM10: function (callback) {
+		callback(null, this._cachedData.pm10);
 	},
 
 	getServices: function () {
@@ -75,10 +108,23 @@ davis.prototype = {
 			.getCharacteristic(Characteristic.CurrentRelativeHumidity)
 			.setProps({minValue: 0, maxValue: 100})
 			.on("get", this.getStateHumidity.bind(this));
-	services.push(this.humidityService);
+		services.push(this.humidityService);
 
+		if (this.sensorType == 3) { 
+			this.airQualityService = new Service.AirQualitySensor(this.name);
+			this.airQualityService
+				.getCharacteristic(Characteristic.AirQuality)
+				.on("get", this.getAirQuality.bind(this));
+			this.airQualityService
+				.getCharacteristic(Characteristic.PM2p5Density)
+				.on("get", this.getPM2p5.bind(this));
+			this.airQualityService
+				.getCharacteristic(Characteristic.PM10Density)
+				.on("get", this.getPM10.bind(this));
+			services.push(this.airQualityService);
+		}
 
-		return services;
+	return services;
 	},
 
 	getData: function (url) {
@@ -94,15 +140,13 @@ davis.prototype = {
 					this.getData(this.url);
 				}.bind(this), this.pollingIntervalSeconds * 1000);
 			}.bind(this);
-
 			if (error) {
 				this.log.error("Request to Davis API failed: %s", error.message);
 				queue();
 				return;
 			}
-
 			this.log("Request to Davis API succeeded!");
-
+			
 			var jsonResponse = JSON.parse(responseBody);
 
 			if (jsonResponse.data && (!jsonResponse.data.conditions || jsonResponse.data.conditions.length == 0)) {
@@ -123,28 +167,30 @@ davis.prototype = {
 				 * Vantage data: https://weatherlink.github.io/weatherlink-live-local-api/
 				 * Airlink data: https://weatherlink.github.io/airlink-local-api/
 				 * 
-				 * 1: External Current conditions (Vantage known) 
+				 * 1: Vantage External (at minimum)  
 				 * 2: Leaf/Soil Moisture records 
-				 * 3: Barometrics (Vantage known) 
-				 * 4: Internal Current conditions (weatherlink for sure) 
-				 * 5: Airlink Old Format 
-				 * 6: Airlink New External Current Conditions
+				 * 3: Barometrics
+				 * 4: Internal (Weatherlink Transmitter) 
+				 * 5: Airlink Old Format External 
+				 * 6: Airlink New Format External
 				 */
 				switch (weather[i].data_structure_type) {
 					case 1: 
 						if (this.sensorType == 1) {
 							if (weather[i].txid == this.txid) {
 								this.temperature = weather[i].temp;
-								this.humidity = weather[i].hum; 
+								this.humidity = weather[i].hum;
 							}
 						}
 						break;
+
 					case 4: 
 						if (this.sensorType == 2) {
 							this.temperature = weather[i].temp_in;
 							this.humidity = weather[i].hum_in; 
 						}
 						break;
+
 					case 5:
 						if (this.sensorType == 3) {
 							this.temperature = weather[i].temp;
@@ -153,28 +199,43 @@ davis.prototype = {
 							this.pm2p5 = weather[i].pm_2p5;
 						}
 						break; 
+
 					case 6: 
 						if (this.sensorType == 3) {
-							this.temperature = weather[i].temp;
+							this.temperature = 	weather[i].temp;
 							this.humidity = weather[i].hum; 
-							this.pm10 = weather[i].pm_10p0;
+							this.pm10 = weather[i].pm_10;
 							this.pm2p5 = weather[i].pm_2p5;
+							this.log.debug("%s %s %s %s", this.temperature, this.humidity, this.pm10, this.pm2p5);
 						}
 						break; 
+
 					default: 
 						break;
 				}
 			}
-			this._cachedData = {
-				"temperature": this.temperatureUnitOfMeasure == "F" ? this.convertFromFahrenheitToCelsius(this.temperature) : this.temperature,
-				"humidity": Math.round(this.humidity),
+			this.log.debug("%s %s %s %s", this.temperature, this.humidity, this.pm10, this.pm2p5);
 
-
+			if (this.sensorType == 3) { 
+				this._cachedData = {
+					"temperature": this.temperatureUnitOfMeasure == "F" ? this.convertFromFahrenheitToCelsius(this.temperature) : this.temperature,
+					"humidity": Math.round(this.humidity),
+					"pm2p5": this.pm2p5,
+					"pm10": this.pm10,
+					"airQuality": computeAqiFromPm(this.pm2p5, this.pm10),
+				}
+			} else {
+				this._cachedData = {
+					"temperature": this.temperatureUnitOfMeasure == "F" ? this.convertFromFahrenheitToCelsius(this.temperature) : this.temperature,
+					"humidity": Math.round(this.humidity),
+				}
 			};
-			this.log.debug("Temp %s, Hum %s", this._cachedData.temperature,  this._cachedData.humidity);
+			this.log.debug("%s %s %s %s", this.temperature, this.humidity, this.pm2p5, this.pm10);
+			this.log.debug("%s %s %s %s", this._cachedData.temperature,  this._cachedData.humidity, this.pm2p5, this.pm10);
 			queue();
 		}.bind(this));
 	},
+
 	convertFromFahrenheitToCelsius: function (f) { //MUST BE A NUMBER!
 		return parseFloat(((f - 32) * (5 / 9)).toFixed(1));
 	}
