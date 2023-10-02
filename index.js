@@ -117,10 +117,9 @@ davis.prototype = {
 				.getCharacteristic(Characteristic.AirQuality)
 				.on("get", this.getAirQuality.bind(this));
 			
-/*			this.airQualityService
-				.getCharacteristic(Characteristic.PM2p5Density)
+			this.airQualityService
+				.getCharacteristic(Characteristic.PM2_5Density)
 				.on("get", this.getPM2p5.bind(this)); 
-*/
 
 			this.airQualityService
 				.getCharacteristic(Characteristic.PM10Density)
