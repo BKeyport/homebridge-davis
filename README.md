@@ -43,8 +43,6 @@ Use Internal Measurements - Left in for backwards compatibility - please use "ty
 
 Note: The plugin will report various errors from time to time. This is normal. I suspect the WLL box isn't able to handle generating the result and scaning the weather stations at the same time. This is why the polling interval is suggested to be different values above. The system will drift naturally and have more successes as it runs. 
 
-Testing is needed - if you use this - please let me know through github issues - if it works, if it don't, if something else is wrong, or if you can get rid of the "socket hang up" issue. 
-
 Due to lack of time, support for this module is only provided through issues on Github. Thanks. 
 
 Original Code by pmoon00, modifications and new work by bkeyport

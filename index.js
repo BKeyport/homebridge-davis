@@ -146,11 +146,11 @@ davis.prototype = {
 				}.bind(this), this.pollingIntervalSeconds * 1000);
 			}.bind(this);
 			if (error) {
-				this.log.error("Request to Davis API failed: %s", error.message);
+				this.log.error("Request to Davis API failed: %s (infrequent errors is normal)", error.message);
 				queue();
 				return;
 			}
-			this.log("Request to Davis API succeeded!");
+			this.log.debug("Request to Davis API succeeded!");
 			
 			var jsonResponse = JSON.parse(responseBody);
 
